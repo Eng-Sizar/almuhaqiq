@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Creative Developer | Hamza Hesham 😁💙',
   description: 'لعبة التحقيق والجريمة - المحقق | تجربة تحقيق بوليسية كلاسيكية سلسة وممتعة ومبسطة.',
   openGraph: {
-    title: 'المحقق | لعبة التحقيق والجريمة',
+    title: 'Creative Developer | Hamza Hesham 😁💙',
     description: 'لعبة التحقيق والجريمة - المحقق | تجربة تحقيق بوليسية كلاسيكية سلسة وممتعة ومبسطة.',
     type: 'website',
   },
