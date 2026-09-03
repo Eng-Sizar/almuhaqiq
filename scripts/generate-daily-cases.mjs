@@ -12,9 +12,11 @@ const validDifficulties = new Set(['سهل', 'متوسط', 'معقد', 'أسطو
 const validMessageTypes = new Set(['narrator', 'character', 'player', 'clue', 'system']);
 const validClueCategories = new Set(['مادي', 'وثيقة', 'شهادة', 'علمي']);
 const themes = ['فندق تراثي', 'قطار ليلي', 'متحف آثار', 'مسرح قديم', 'ميناء تجاري', 'مكتبة نادرة', 'قصر صحراوي'];
+const retryableErrorPattern = /\b(429|500|502|503|504)\b|UNAVAILABLE|RESOURCE_EXHAUSTED|high demand/i;
 
 const isRecord = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
 const isText = (value) => typeof value === 'string' && value.trim().length > 0;
+const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));
@@ -181,13 +183,25 @@ function repairPrompt(candidate, issues, expectedId, number) {
 }
 
 async function generateJson(ai, prompt, systemInstruction) {
-  const response = await ai.models.generateContent({
-    model,
-    contents: prompt,
-    config: { responseMimeType: 'application/json', systemInstruction, temperature: 0.45 },
-  });
-  if (!response.text) throw new Error('Gemini لم يُرجع محتوى.');
-  return extractJson(response.text);
+  const maxAttempts = 5;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const response = await ai.models.generateContent({
+        model,
+        contents: prompt,
+        config: { responseMimeType: 'application/json', systemInstruction, temperature: 0.45 },
+      });
+      if (!response.text) throw new Error('Gemini لم يُرجع محتوى.');
+      return extractJson(response.text);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (attempt === maxAttempts || !retryableErrorPattern.test(message)) throw error;
+      const delay = 2000 * (2 ** (attempt - 1)) + Math.floor(Math.random() * 700);
+      console.warn(`Gemini غير متاح مؤقتاً؛ إعادة المحاولة ${attempt}/${maxAttempts - 1} بعد ${Math.ceil(delay / 1000)} ثوانٍ.`);
+      await wait(delay);
+    }
+  }
+  throw new Error('تعذر الاتصال بـ Gemini بعد المحاولات المسموح بها.');
 }
 
 async function generateApprovedCase(ai, details, usedIds) {
@@ -198,10 +212,9 @@ async function generateApprovedCase(ai, details, usedIds) {
     candidate.id = details.id;
     candidate.number = details.number;
     const technicalIssues = validateCase(candidate, details.id, usedIds);
-    const [narrativeReview, gameplayReview] = await Promise.all([
-      generateJson(ai, reviewerPrompt(candidate, 'narrative'), 'أنت مدقق منطقي شديد الدقة. أعد JSON فقط.'),
-      generateJson(ai, reviewerPrompt(candidate, 'gameplay'), 'أنت مدقق تقني شديد الدقة. أعد JSON فقط.'),
-    ]);
+    // Run reviewers one after another to reduce rate-limit pressure while preserving two independent reviews.
+    const narrativeReview = await generateJson(ai, reviewerPrompt(candidate, 'narrative'), 'أنت مدقق منطقي شديد الدقة. أعد JSON فقط.');
+    const gameplayReview = await generateJson(ai, reviewerPrompt(candidate, 'gameplay'), 'أنت مدقق تقني شديد الدقة. أعد JSON فقط.');
     const reviewIssues = [
       ...(Array.isArray(narrativeReview.issues) ? narrativeReview.issues : []),
       ...(Array.isArray(gameplayReview.issues) ? gameplayReview.issues : []),
