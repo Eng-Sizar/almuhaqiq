@@ -69,7 +69,7 @@ export const AppFooter: React.FC = () => (
             <span className="footer-link-shine pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
             <span className="relative whitespace-nowrap text-[#a6d76f]">&lt; Developed By &gt;</span>
             <a
-              href="https://hamza-hesham.vercel.app/"
+              href="https://www.nesr.site"
               target="_blank"
               rel="noopener noreferrer"
               className="relative rounded-md bg-slate-700 px-3 py-1 text-slate-100 transition hover:-translate-y-0.5 hover:bg-slate-600 hover:shadow-[0_7px_18px_rgba(0,0,0,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a6d76f]"
