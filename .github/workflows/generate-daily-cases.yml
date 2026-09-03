@@ -1,1 +1,45 @@
+name: Generate daily detective cases
 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 19 * * *'
+      timezone: 'Africa/Cairo'
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate, review, and validate three cases
+        run: npm run generate:daily-cases
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: gemini-2.5-flash
+
+      - name: Verify the application build
+        run: npm run build
+
+      - name: Commit approved cases
+        run: |
+          git config user.name "Detective Case Bot"
+          git config user.email "actions@github.com"
+          git add src/data/cases/custom-cases.json src/data/cases/daily-generation-state.json
+          git diff --cached --quiet || git commit -m "content: add daily detective cases"
+          git push
