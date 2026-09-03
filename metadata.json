@@ -1,0 +1,8 @@
+{
+  "name": "Creative Developer | Hamza Hesham 😁💙",
+  "description": "لعبة التحقيق والجريمة - المحقق | تجربة تحقيق بوليسية كلاسيكية سلسة وممتعة ومبسطة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

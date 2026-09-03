@@ -1,0 +1,138 @@
+{
+  "id": "case_unique_id",
+  "number": 4,
+  "title": "عنوان القضية الجديدة",
+  "subtitle": "وصف قصير للقضية",
+  "description": "اكتب هنا ملخصاً مشوقاً يوضح الجريمة ومكانها وما الذي يحتاجه اللاعب لكشف الحقيقة.",
+  "location": "موقع الجريمة",
+  "difficulty": "متوسط",
+  "suspects": [
+    {
+      "id": "suspect_first",
+      "name": "اسم المشتبه به",
+      "role": "دوره في القضية",
+      "avatar": "🕵️",
+      "bio": "نبذة قصيرة عنه.",
+      "alibi": "ما يقوله عن مكانه وقت الجريمة.",
+      "motive": "دافعه المحتمل.",
+      "isCulprit": true,
+      "interrogated": false,
+      "suspicionLevel": 4
+    }
+  ],
+  "clues": [
+    {
+      "id": "clue_first",
+      "title": "الدليل الأول",
+      "category": "مادي",
+      "description": "وصف مختصر لما وجده المحقق.",
+      "detail": "تفاصيل التحليل الجنائي للدليل.",
+      "iconName": "Search"
+    },
+    {
+      "id": "clue_second",
+      "title": "الدليل الثاني",
+      "category": "شهادة",
+      "description": "شهادة أو معلومة جديدة.",
+      "detail": "التفاصيل التي تجعل الدليل مهماً.",
+      "iconName": "MessageCircle"
+    }
+  ],
+  "timeline": [
+    {
+      "id": "time_first",
+      "time": "10:00 م",
+      "description": "بداية الأحداث المهمة.",
+      "order": 1
+    }
+  ],
+  "deductions": [
+    {
+      "id": "deduction_first",
+      "title": "الاستنتاج الحاسم",
+      "requiredClueIds": ["clue_first", "clue_second"],
+      "conclusion": "كيف يرتبط الدليلان لكشف الحقيقة.",
+      "unlocked": false
+    }
+  ],
+  "startNodeId": "node_start",
+  "nodes": {
+    "node_start": {
+      "id": "node_start",
+      "phase": 1,
+      "phaseName": "بداية التحقيق",
+      "messages": [
+        {
+          "type": "narrator",
+          "text": "ابدأ سرد أحداث القضية هنا."
+        },
+        {
+          "type": "clue",
+          "clueId": "clue_first",
+          "text": "تم العثور على دليل جديد."
+        }
+      ],
+      "effects": {
+        "addClue": "clue_first"
+      },
+      "choices": [
+        {
+          "id": "choice_accuse",
+          "text": "انتقل إلى قرار الاتهام.",
+          "nextNodeId": "node_accusation"
+        }
+      ]
+    },
+    "node_accusation": {
+      "id": "node_accusation",
+      "phase": 4,
+      "phaseName": "القرار النهائي",
+      "messages": [
+        {
+          "type": "narrator",
+          "text": "راجع أدلتك ثم اختر قرارك النهائي."
+        }
+      ],
+      "choices": [
+        {
+          "id": "choice_correct",
+          "text": "توجيه الاتهام إلى المشتبه به الحقيقي.",
+          "nextNodeId": "node_ending_correct"
+        },
+        {
+          "id": "choice_wrong",
+          "text": "توجيه اتهام خاطئ.",
+          "nextNodeId": "node_ending_wrong"
+        }
+      ]
+    },
+    "node_ending_correct": {
+      "id": "node_ending_correct",
+      "phase": 4,
+      "phaseName": "إغلاق القضية",
+      "isEnding": true,
+      "isCorrectEnding": true,
+      "endingVerdict": "تم كشف الجاني وإغلاق القضية بنجاح.",
+      "messages": [
+        {
+          "type": "system",
+          "text": "أحسنت! تم حل القضية بنجاح."
+        }
+      ]
+    },
+    "node_ending_wrong": {
+      "id": "node_ending_wrong",
+      "phase": 4,
+      "phaseName": "اتهام خاطئ",
+      "isEnding": true,
+      "isCorrectEnding": false,
+      "endingVerdict": "لم تكن الأدلة كافية لهذا الاتهام.",
+      "messages": [
+        {
+          "type": "system",
+          "text": "أعد مراجعة الأدلة وحاول مرة أخرى."
+        }
+      ]
+    }
+  }
+}

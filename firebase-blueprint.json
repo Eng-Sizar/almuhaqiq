@@ -1,0 +1,56 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Detective player profile and game progress",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "username": { "type": "string" },
+        "avatar": { "type": "string" },
+        "equippedTitle": { "type": "string" },
+        "coins": { "type": "number" },
+        "stats": { "type": "object" },
+        "achievements": { "type": "array" },
+        "questsClaimed": { "type": "array" },
+        "ownedShopItems": { "type": "array" },
+        "caseRecords": { "type": "object" },
+        "solvedPuzzles": { "type": "array" },
+        "solvedNewspaperPuzzles": { "type": "array" },
+        "settings": { "type": "object" },
+        "createdAt": { "type": "string" },
+        "lastActiveAt": { "type": "string" }
+      },
+      "required": ["id", "username", "coins"]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Player ranking entry on the hall of fame",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string" },
+        "avatar": { "type": "string" },
+        "equippedTitle": { "type": "string" },
+        "rankTitle": { "type": "string" },
+        "rankIcon": { "type": "string" },
+        "xp": { "type": "number" },
+        "coins": { "type": "number" },
+        "casesSolved": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "username", "xp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and gameplay save data"
+    },
+    "/leaderboard/{entryId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Global detective leaderboard entries"
+    }
+  }
+}
