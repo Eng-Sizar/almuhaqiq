@@ -168,18 +168,18 @@ function validateCase(candidate, expectedId, usedIds) {
 }
 
 function casePrompt({ date, slot, id, number, theme }) {
-  return `أنت كاتب ألعاب تحقيق عربي محترف. أنشئ قضية جريمة خيالية قابلة للعب، مكتوبة بالعربية الفصحى، ولا تستخدم أشخاصاً أو جرائم حقيقية.\n\nأعد كائناً JSON فقط، بلا Markdown وبلا شرح. يجب أن يطابق هذا العقد بدقة:\n- id: "${id}"، number: ${number}، title، subtitle، description، location، difficulty واحدة من: سهل، متوسط، معقد، أسطوري.\n- suspects: أنشئ 4 مشتبهين بالضبط؛ كل عنصر يملك id، name، role، avatar، bio، alibi، motive، isCulprit، interrogated:false، suspicionLevel من 1 إلى 5. يوجد جانٍ واحد فقط.\n- clues: أنشئ 4 أدلة بالضبط، لا ثلاثة ولا خمسة. كل عنصر يملك id، title، category واحدة من مادي أو وثيقة أو شهادة أو علمي، description، detail، iconName.\n- timeline: أنشئ 4 أحداث زمنية بالضبط؛ كل منها id، time، description، order. يجب ألا تتضارب الأحداث مع الأعذار.\n- deductions: أنشئ استنتاجين بالضبط؛ كل منها id، title، requiredClueIds يحتوي بالضبط على معرفي دليلين موجودين، conclusion، unlocked:false.\n- nodes: أنشئ 6 عقد حوار بالضبط. كل عقدة تحتوي id مطابقاً لمفتاحها، phase من 1 إلى 4، phaseName، messages (رسالة أو أكثر، وكل رسالة تحتوي type من narrator أو character أو player أو clue أو system وtext؛ وعندما تمنح دليلاً أضف clueId الصحيح)، وchoices عند الحاجة. كل خيار يحتوي id وtext وnextNodeId موجوداً.\n- يجب أن يبدأ startNodeId بعقدة موجودة. يجب وجود نهاية صحيحة واحدة isEnding:true وisCorrectEnding:true ونهاية خاطئة واحدة على الأقل isEnding:true وisCorrectEnding:false، ولكل نهاية endingVerdict.\n- اجعل كل الأدلة الأربعة قابلة للاكتشاف عبر messages.clueId أو effects.addClue، وكل العقد قابلة للوصول من startNodeId.\n- أنشئ طريقاً واضحاً للوصول إلى الاتهام الصحيح، واجعل الأدلة والاستنتاجات تكشف الجاني منطقياً.\n\nاليوم: ${date}. القضية رقم ${slot} من ثلاث قضايا يومية. موضوع الإلهام: ${theme}. اجعلها مختلفة جذرياً عن أي قالب نمطي، دون عنف وصفي مفرط.`;
+  return `أنت كاتب ألعاب تحقيق عربي محترف. أنشئ قضية جريمة خيالية قابلة للعب، مكتوبة بالعامية المصرية فقط، ولا تستخدم أشخاصاً أو جرائم حقيقية.\n\nأعد كائناً JSON فقط، بلا Markdown وبلا شرح. يجب أن يطابق هذا العقد بدقة:\n- id: "${id}"، number: ${number}، title، subtitle، description، location، difficulty واحدة من: سهل، متوسط، معقد، أسطوري.\n- suspects: أنشئ 4 مشتبهين بالضبط؛ كل عنصر يملك id، name، role، avatar، bio، alibi، motive، isCulprit، interrogated:false، suspicionLevel من 1 إلى 5. يوجد جانٍ واحد فقط.\n- clues: أنشئ 4 أدلة بالضبط، لا ثلاثة ولا خمسة. كل عنصر يملك id، title، category واحدة من مادي أو وثيقة أو شهادة أو علمي، description، detail، iconName.\n- timeline: أنشئ 4 أحداث زمنية بالضبط؛ كل منها id، time، description، order. يجب ألا تتضارب الأحداث مع الأعذار.\n- deductions: أنشئ استنتاجين بالضبط؛ كل منها id، title، requiredClueIds يحتوي بالضبط على معرفي دليلين موجودين، conclusion، unlocked:false.\n- nodes: أنشئ 6 عقد حوار بالضبط. كل عقدة تحتوي id مطابقاً لمفتاحها، phase من 1 إلى 4، phaseName، messages (رسالة أو أكثر، وكل رسالة تحتوي type من narrator أو character أو player أو clue أو system وtext؛ وعندما تمنح دليلاً أضف clueId الصحيح)، وchoices عند الحاجة. كل خيار يحتوي id وtext وnextNodeId موجوداً.\n- يجب أن يبدأ startNodeId بعقدة موجودة. يجب وجود نهاية صحيحة واحدة isEnding:true وisCorrectEnding:true ونهاية خاطئة واحدة على الأقل isEnding:true وisCorrectEnding:false، ولكل نهاية endingVerdict.\n- اجعل كل الأدلة الأربعة قابلة للاكتشاف عبر messages.clueId أو effects.addClue، وكل العقد قابلة للوصول من startNodeId.\n- أنشئ طريقاً واضحاً للوصول إلى الاتهام الصحيح، واجعل الأدلة والاستنتاجات تكشف الجاني منطقياً.\n\nاليوم: ${date}. القضية رقم ${slot} من ثلاث قضايا يومية. موضوع الإلهام: ${theme}. اجعلها مختلفة جذرياً عن أي قالب نمطي، دون عنف وصفي مفرط.`;
 }
 
 function reviewerPrompt(candidate, reviewType) {
   const focus = reviewType === 'narrative'
-    ? 'راجع التسلسل الزمني والدوافع والأعذار والأدلة والاستنتاجات: هل تقود كل الأسباب منطقياً إلى الجاني الوحيد؟ وهل توجد أي تناقضات أو قفزات غير مبررة؟'
-    : 'راجع قابلية اللعب تقنياً: هل كل عقد الحوار ومسارات الخيارات قابلة للوصول؟ هل يكشف الحوار الأدلة المطلوبة؟ وهل يستطيع اللاعب الوصول إلى النهاية الصحيحة بناءً على أدلة متسقة؟';
-  return `أنت مراجع جودة صارم لألعاب التحقيق العربية. ${focus}\n\nأعد JSON فقط بالشكل {"approved":boolean,"issues":["..."],"revisionBrief":"..."}. لا توافق إذا وجدت أي تعارض أو غموض يمنع الحل المنطقي.\n\nالقضية:\n${JSON.stringify(candidate)}`;
+    ? 'راجع التسلسل الزمني والدوافع والأعذار والأدلة والاستنتاجات: هل تقود كل الأسباب منطقياً إلى الجاني الوحيد؟ وهل توجد أي تناقضات أو قفزات غير مبررة؟ تأكد أن النص مكتوب بالعامية المصرية فقط.'
+    : 'راجع قابلية اللعب تقنياً: هل كل عقد الحوار ومسارات الخيارات قابلة للوصول؟ هل يكشف الحوار الأدلة المطلوبة؟ وهل يستطيع اللاعب الوصول إلى النهاية الصحيحة بناءً على أدلة متسقة؟ تأكد أن النص مكتوب بالعامية المصرية فقط.';
+  return `أنت مراجع جودة صارم لألعاب التحقيق المصرية. ${focus}\n\nأعد JSON فقط بالشكل {"approved":boolean,"issues":["..."],"revisionBrief":"..."}. لا توافق إذا وجدت أي تعارض أو غموض يمنع الحل المنطقي أو إذا لم يكن النص بالعامية المصرية.\n\nالقضية:\n${JSON.stringify(candidate)}`;
 }
 
 function repairPrompt(candidate, issues, expectedId, number) {
-  return `أنت محرر ألعاب تحقيق. أصلح القضية التالية بالكامل وفق ملاحظات المراجعين والفحص التقني. أعد كائن JSON كامل فقط، بلا Markdown. لا تغير id (${expectedId}) أو number (${number})، ولا تحذف نهايتي الاتهام الصحيحة والخاطئة.\n\nالملاحظات:\n${issues.map((issue) => `- ${issue}`).join('\n')}\n\nالقضية الحالية:\n${JSON.stringify(candidate)}`;
+  return `أنت محرر ألعاب تحقيق. أصلح القضية التالية بالكامل وفق ملاحظات المراجعين والفحص التقني. أعد كائن JSON كامل فقط، بلا Markdown. لا تغير id (${expectedId}) أو number (${number})، ولا تحذف نهايتي الاتهام الصحيحة والخاطئة. تأكد أن جميع النصوص مكتوبة بالعامية المصرية فقط.\n\nالملاحظات:\n${issues.map((issue) => `- ${issue}`).join('\n')}\n\nالقضية الحالية:\n${JSON.stringify(candidate)}`;
 }
 
 async function generateJson(ai, prompt, systemInstruction) {
@@ -205,7 +205,7 @@ async function generateJson(ai, prompt, systemInstruction) {
 }
 
 async function generateApprovedCase(ai, details, usedIds) {
-  const systemInstruction = 'اكتب العربية الفصحى بعناية. لا تؤلف بيانات حقيقية ولا تستعمل لغة مسيئة. اتبع بنية JSON المطلوبة حرفياً.';
+  const systemInstruction = 'اكتب بالعامية المصرية فقط. لا تؤلف بيانات حقيقية ولا تستعمل لغة مسيئة. اتبع بنية JSON المطلوبة حرفياً.';
   const failures = [];
 
   // A fresh draft is more reliable than endlessly repairing a model response that ignored the schema.
@@ -245,8 +245,7 @@ async function generateApprovedCase(ai, details, usedIds) {
 async function main() {
   if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY غير مضبوط. أضفه كسِر GitHub أو متغير بيئة محلي.');
 
-  const [existingCases, state] = await Promise.all([readJson(casesPath), readJson(statePath)]);
-  if (!Array.isArray(existingCases)) throw new Error('custom-cases.json يجب أن يكون مصفوفة.');
+  const state = await readJson(statePath);
   const date = cairoDate();
   if (state.lastGeneratedCairoDate === date && process.argv[2] !== '--force') {
     console.log(`لا توجد عملية: تم إنشاء قصص ${date} بالفعل.`);
@@ -254,8 +253,8 @@ async function main() {
   }
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-  const usedIds = new Set(existingCases.map((item) => item.id));
-  const nextNumber = Math.max(3, ...existingCases.map((item) => Number(item.number) || 0)) + 1;
+  const usedIds = new Set();
+  const nextNumber = 1;
   const compactDate = date.replaceAll('-', '');
   const approvedCases = [];
 
@@ -274,10 +273,10 @@ async function main() {
   }
 
   await Promise.all([
-    writeJson(casesPath, [...existingCases, ...approvedCases]),
+    writeJson(casesPath, approvedCases),
     writeJson(statePath, { lastGeneratedCairoDate: date, generatedCaseIds: approvedCases.map((item) => item.id) }),
   ]);
-  console.log(`تمت إضافة ${approvedCases.length} قضايا بتاريخ ${date} (Africa/Cairo).`);
+  console.log(`تمت إضافة ${approvedCases.length} قضايا بتاريخ ${date} (Africa/Cairo) وحذف القصص السابقة.`);
 }
 
 main().catch((error) => {
