@@ -168,7 +168,7 @@ function validateCase(candidate, expectedId, usedIds) {
 }
 
 function casePrompt({ date, slot, id, number, theme }) {
-  return `أنت كاتب ألعاب تحقيق عربي محترف. أنشئ قضية جريمة خيالية قابلة للعب، مكتوبة بالعربية الفصحى، ولا تستخدم أشخاصاً أو جرائم حقيقية.\n\nأعد كائناً JSON فقط، بلا Markdown وبلا شرح. يجب أن يطابق هذا العقد بدقة:\n- id: "${id}"، number: ${number}، title، subtitle، description، location، difficulty واحدة من: سهل، متوسط، معقد، أسطوري.\n- suspects: 3 إلى 5 عناصر؛ كل عنصر يملك id، name، role، avatar، bio، alibi، motive، isCulprit، interrogated:false، suspicionLevel من 1 إلى 5. يوجد جانٍ واحد فقط.\n- clues: 4 إلى 6 عناصر؛ كل منها id، title، category واحدة من مادي أو وثيقة أو شهادة أو علمي، description، detail، iconName.\n- timeline: 3 عناصر أو أكثر؛ كل منها id، time، description، order. يجب ألا تتضارب الأحداث مع الأعذار.\n- deductions: عنصران أو أكثر؛ كل منها id، title، requiredClueIds يحتوي بالضبط على معرفي دليلين موجودين، conclusion، unlocked:false.\n- nodes: 5 عقد أو أكثر. كل عقدة تحتوي id مطابقاً لمفتاحها، phase من 1 إلى 4، phaseName، messages (رسالة أو أكثر، وكل رسالة تحتوي type من narrator أو character أو player أو clue أو system وtext؛ وعندما تمنح دليلاً أضف clueId الصحيح)، وchoices عند الحاجة. كل خيار يحتوي id وtext وnextNodeId موجوداً.\n- يجب أن يبدأ startNodeId بعقدة موجودة. يجب وجود نهاية صحيحة واحدة isEnding:true وisCorrectEnding:true ونهاية خاطئة واحدة على الأقل isEnding:true وisCorrectEnding:false، ولكل نهاية endingVerdict.\n- اجعل كل الأدلة قابلة للاكتشاف عبر messages.clueId أو effects.addClue، وكل العقد قابلة للوصول من startNodeId.\n- أنشئ طريقاً واضحاً للوصول إلى الاتهام الصحيح، واجعل الأدلة والاستنتاجات تكشف الجاني منطقياً.\n\nاليوم: ${date}. القضية رقم ${slot} من ثلاث قضايا يومية. موضوع الإلهام: ${theme}. اجعلها مختلفة جذرياً عن أي قالب نمطي، دون عنف وصفي مفرط.`;
+  return `أنت كاتب ألعاب تحقيق عربي محترف. أنشئ قضية جريمة خيالية قابلة للعب، مكتوبة بالعربية الفصحى، ولا تستخدم أشخاصاً أو جرائم حقيقية.\n\nأعد كائناً JSON فقط، بلا Markdown وبلا شرح. يجب أن يطابق هذا العقد بدقة:\n- id: "${id}"، number: ${number}، title، subtitle، description، location، difficulty واحدة من: سهل، متوسط، معقد، أسطوري.\n- suspects: أنشئ 4 مشتبهين بالضبط؛ كل عنصر يملك id، name، role، avatar، bio، alibi، motive، isCulprit، interrogated:false، suspicionLevel من 1 إلى 5. يوجد جانٍ واحد فقط.\n- clues: أنشئ 4 أدلة بالضبط، لا ثلاثة ولا خمسة. كل عنصر يملك id، title، category واحدة من مادي أو وثيقة أو شهادة أو علمي، description، detail، iconName.\n- timeline: أنشئ 4 أحداث زمنية بالضبط؛ كل منها id، time، description، order. يجب ألا تتضارب الأحداث مع الأعذار.\n- deductions: أنشئ استنتاجين بالضبط؛ كل منها id، title، requiredClueIds يحتوي بالضبط على معرفي دليلين موجودين، conclusion، unlocked:false.\n- nodes: أنشئ 6 عقد حوار بالضبط. كل عقدة تحتوي id مطابقاً لمفتاحها، phase من 1 إلى 4، phaseName، messages (رسالة أو أكثر، وكل رسالة تحتوي type من narrator أو character أو player أو clue أو system وtext؛ وعندما تمنح دليلاً أضف clueId الصحيح)، وchoices عند الحاجة. كل خيار يحتوي id وtext وnextNodeId موجوداً.\n- يجب أن يبدأ startNodeId بعقدة موجودة. يجب وجود نهاية صحيحة واحدة isEnding:true وisCorrectEnding:true ونهاية خاطئة واحدة على الأقل isEnding:true وisCorrectEnding:false، ولكل نهاية endingVerdict.\n- اجعل كل الأدلة الأربعة قابلة للاكتشاف عبر messages.clueId أو effects.addClue، وكل العقد قابلة للوصول من startNodeId.\n- أنشئ طريقاً واضحاً للوصول إلى الاتهام الصحيح، واجعل الأدلة والاستنتاجات تكشف الجاني منطقياً.\n\nاليوم: ${date}. القضية رقم ${slot} من ثلاث قضايا يومية. موضوع الإلهام: ${theme}. اجعلها مختلفة جذرياً عن أي قالب نمطي، دون عنف وصفي مفرط.`;
 }
 
 function reviewerPrompt(candidate, reviewType) {
@@ -206,29 +206,40 @@ async function generateJson(ai, prompt, systemInstruction) {
 
 async function generateApprovedCase(ai, details, usedIds) {
   const systemInstruction = 'اكتب العربية الفصحى بعناية. لا تؤلف بيانات حقيقية ولا تستعمل لغة مسيئة. اتبع بنية JSON المطلوبة حرفياً.';
-  let candidate = await generateJson(ai, casePrompt(details), systemInstruction);
+  const failures = [];
 
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    candidate.id = details.id;
-    candidate.number = details.number;
-    const technicalIssues = validateCase(candidate, details.id, usedIds);
-    // Run reviewers one after another to reduce rate-limit pressure while preserving two independent reviews.
-    const narrativeReview = await generateJson(ai, reviewerPrompt(candidate, 'narrative'), 'أنت مدقق منطقي شديد الدقة. أعد JSON فقط.');
-    const gameplayReview = await generateJson(ai, reviewerPrompt(candidate, 'gameplay'), 'أنت مدقق تقني شديد الدقة. أعد JSON فقط.');
-    const reviewIssues = [
-      ...(Array.isArray(narrativeReview.issues) ? narrativeReview.issues : []),
-      ...(Array.isArray(gameplayReview.issues) ? gameplayReview.issues : []),
-    ].filter(isText);
-    const reviewsApproved = narrativeReview.approved === true && gameplayReview.approved === true && reviewIssues.length === 0;
+  // A fresh draft is more reliable than endlessly repairing a model response that ignored the schema.
+  for (let freshDraft = 1; freshDraft <= 3; freshDraft += 1) {
+    let candidate = await generateJson(ai, casePrompt(details), systemInstruction);
+    for (let correction = 1; correction <= 2; correction += 1) {
+      candidate.id = details.id;
+      candidate.number = details.number;
+      const technicalIssues = validateCase(candidate, details.id, usedIds);
 
-    if (technicalIssues.length === 0 && reviewsApproved) return candidate;
-    if (attempt === 2) {
-      throw new Error(`القضية ${details.id} لم تجتز المراجعة بعد ثلاث محاولات: ${[...technicalIssues, ...reviewIssues].join(' | ')}`);
+      if (technicalIssues.length > 0) {
+        failures.push(...technicalIssues);
+        if (correction === 2) break;
+        candidate = await generateJson(ai, repairPrompt(candidate, technicalIssues, details.id, details.number), systemInstruction);
+        continue;
+      }
+
+      // Run reviewers one after another to reduce rate-limit pressure while preserving two independent reviews.
+      const narrativeReview = await generateJson(ai, reviewerPrompt(candidate, 'narrative'), 'أنت مدقق منطقي شديد الدقة. أعد JSON فقط.');
+      const gameplayReview = await generateJson(ai, reviewerPrompt(candidate, 'gameplay'), 'أنت مدقق تقني شديد الدقة. أعد JSON فقط.');
+      const reviewIssues = [
+        ...(Array.isArray(narrativeReview.issues) ? narrativeReview.issues : []),
+        ...(Array.isArray(gameplayReview.issues) ? gameplayReview.issues : []),
+      ].filter(isText);
+      const reviewsApproved = narrativeReview.approved === true && gameplayReview.approved === true && reviewIssues.length === 0;
+
+      if (reviewsApproved) return candidate;
+      failures.push(...reviewIssues);
+      if (correction === 2) break;
+      candidate = await generateJson(ai, repairPrompt(candidate, reviewIssues, details.id, details.number), systemInstruction);
     }
-    const issues = [...technicalIssues, ...reviewIssues];
-    candidate = await generateJson(ai, repairPrompt(candidate, issues, details.id, details.number), systemInstruction);
+    console.warn(`لم تعتمد المسودة ${freshDraft} للقضية ${details.id}; يتم إنشاء مسودة جديدة.`);
   }
-  throw new Error(`تعذر اعتماد القضية ${details.id}.`);
+  throw new Error(`القضية ${details.id} لم تجتز كل المسودات. آخر الملاحظات: ${[...new Set(failures)].slice(-6).join(' | ')}`);
 }
 
 async function main() {
