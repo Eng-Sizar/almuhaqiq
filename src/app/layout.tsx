@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'المحقق | لعبة التحقيق والجريمة',
+  title: 'Creative Developer | Hamza Hesham 😁💙',
   description: 'لعبة التحقيق والجريمة - المحقق | تجربة تحقيق بوليسية كلاسيكية سلسة وممتعة ومبسطة.',
   openGraph: {
     title: 'المحقق | لعبة التحقيق والجريمة',
